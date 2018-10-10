@@ -1,0 +1,6 @@
+﻿  debug.cpp
+c:\users\任抒怀\desktop\算法分析与设计\debug\debug\debug.cpp(15): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\任抒怀\desktop\算法分析与设计\debug\debug\debug.cpp(35): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\任抒怀\desktop\算法分析与设计\debug\debug\debug.cpp(39): warning C4018: “<”: 有符号/无符号不匹配
+  debug.vcxproj -> C:\Users\任抒怀\Desktop\算法分析与设计\debug\Debug\debug.exe
+  debug.vcxproj -> C:\Users\任抒怀\Desktop\算法分析与设计\debug\Debug\debug.pdb (Partial PDB)
