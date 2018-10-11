@@ -1,42 +1,40 @@
-#include <iostream>
-#include <string>
-#include <cctype>
-#include <vector>
-#include <map>
-#include <algorithm>
-using namespace std;
+#include <stdio.h>
+#define INF 100000//代表无穷
+#define p_length 7//矩阵规模序列长度
+#define maxn 6//矩阵个数
+int p[p_length] = { 30,35,15,5,10,20,25 };//矩阵规模序列
+int m[maxn][maxn] = { 0 };//m[i][j]代表计算矩阵A_i..j所需标量乘法次数的最小值
+int s[maxn][maxn] = { 0 };//记录最优值m[i][j]对应的分割点k
 
-map<string, int> cnt;
-vector<string> words;
+void matrix_chain_order() {
+	for (int l = 2; l <= maxn; l++) {//l为矩阵链的长度
+		for (int i = 0; i<maxn - l + 1; i++) {
+			int j = i + l - 1;
+			m[i][j] = INF;
+			for (int k = i; k<j; k++) {
+				int q = m[i][k] + m[k + 1][j] + p[i] * p[k+1] * p[j+1];
+				if (q<m[i][j]) {
+					m[i][j] = q;
+					s[i][j] = k+1;
+				}
+			}
+		}
+	}
+}
 
-//将单词s进行“标准化”
-string repr(const string& s) {
-	string ans = s;
-	for (int i = 0; i<ans.length(); i++)
-		ans[i] = tolower(ans[i]);
-	sort(ans.begin(), ans.end());
-	return ans;
+void print_optimal_parens(int i, int j) {
+	if (i == j-1)
+		printf("A_%d", i+1);
+	else {
+		printf("(");
+		print_optimal_parens(i, s[i][j-1]);
+		print_optimal_parens(s[i][j]+1, j);
+		printf(")");
+	}
 }
 
 int main() {
-	freopen("./5_4_input.txt", "r", stdin);
-	int n = 0;
-	string s;
-	while (cin >> s) {
-		if (s[0] == '#')
-			break;
-		words.push_back(s);
-		string r = repr(s);
-		if (!cnt.count(r))
-			cnt[r] = 0;
-		cnt[r]++;
-	}
-	vector<string> ans;
-	for (int i = 0; i<words.size(); i++)
-		if (cnt[repr(words[i])] == 1)
-			ans.push_back(words[i]);
-	sort(ans.begin(), ans.end());
-	for (int i = 0; i<ans.size(); i++)
-		cout << ans[i] << "\n";
+	matrix_chain_order();
+	print_optimal_parens(0, maxn-1);
 	return 0;
 }
